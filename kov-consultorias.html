@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KOV Consultorías — Consultoría estructural, arquitectónica y electromecánica</title>
+<meta name="description" content="KOV Consultorías: diseño estructural, arquitectónico y electromecánico, inspección de obra y trámite de permisos de construcción en Costa Rica.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFECE3;
+    --paper-card:#F7F5EE;
+    --paper-line:#D9D3C2;
+    --ink:#1B2B33;
+    --blueprint:#173049;
+    --blueprint-deep:#122539;
+    --blueprint-line:rgba(255,255,255,0.14);
+    --blue-accent:#6FA0C7;
+    --safety:#DD5522;
+    --safety-dark:#B7431A;
+    --concrete:#6E6A5D;
+    --radius:2px;
+    --maxw:1180px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.disp{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    line-height:1.12;
+    margin:0;
+  }
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  section{scroll-margin-top:76px;}
+
+  :focus-visible{outline:2px solid var(--safety);outline-offset:3px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ---------- backgrounds ---------- */
+  .grid-paper{
+    background-image:
+      linear-gradient(var(--paper-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size:34px 34px;
+    background-position:-1px -1px;
+  }
+  .grid-blueprint{
+    background-color:var(--blueprint);
+    background-image:
+      linear-gradient(var(--blueprint-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--blueprint-line) 1px, transparent 1px);
+    background-size:34px 34px;
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(239,236,227,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--paper-line);
+  }
+  .navwrap{
+    max-width:var(--maxw);margin:0 auto;padding:16px 28px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:1.05rem;letter-spacing:0.01em;}
+  .brand .mark{
+    width:30px;height:30px;border:1.5px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-size:0.72rem;font-weight:700;color:var(--ink);
+  }
+  nav ul{list-style:none;display:flex;gap:28px;margin:0;padding:0;}
+  nav a{
+    font-size:0.94rem;font-weight:500;color:var(--ink);
+    position:relative;padding-bottom:4px;
+  }
+  nav a::after{
+    content:"";position:absolute;left:0;bottom:0;width:0;height:2px;
+    background:var(--safety);transition:width .2s ease;
+  }
+  nav a:hover::after{width:100%;}
+  .nav-cta{
+    border:1.5px solid var(--ink);padding:8px 16px;font-size:0.9rem;font-weight:600;
+  }
+  .nav-cta:hover{background:var(--ink);color:var(--paper);}
+  #menu-toggle{display:none;}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:6px;}
+  .burger span{width:22px;height:2px;background:var(--ink);display:block;}
+
+  @media (max-width:860px){
+    nav{position:fixed;top:63px;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--paper-line);
+      max-height:0;overflow:hidden;transition:max-height .25s ease;}
+    nav ul{flex-direction:column;gap:0;padding:8px 28px 4px;}
+    nav li{border-bottom:1px solid var(--paper-line);}
+    nav a{display:block;padding:14px 0;}
+    .nav-cta{display:none;}
+    .burger{display:flex;}
+    #menu-toggle:checked ~ nav{max-height:340px;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:76px 0 64px;overflow:hidden;}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;}
+  .crop{position:absolute;width:22px;height:22px;border-color:var(--ink);}
+  .crop.tl{top:18px;left:18px;border-top:1.5px solid;border-left:1.5px solid;}
+  .crop.tr{top:18px;right:18px;border-top:1.5px solid;border-right:1.5px solid;}
+  .crop.bl{bottom:18px;left:18px;border-bottom:1.5px solid;border-left:1.5px solid;}
+  .crop.br{bottom:18px;right:18px;border-bottom:1.5px solid;border-right:1.5px solid;}
+
+  .hero h1{font-size:clamp(2.4rem,4.6vw,3.7rem);letter-spacing:-0.01em;max-width:12ch;}
+  .hero .lede{margin-top:22px;font-size:1.1rem;max-width:46ch;color:#374850;}
+  .hero .ctas{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:inline-block;padding:13px 24px;font-weight:600;font-size:0.96rem;
+    border-radius:var(--radius);border:1.5px solid transparent;
+  }
+  .btn-primary{background:var(--safety);color:#fff;border-color:var(--safety);}
+  .btn-primary:hover{background:var(--safety-dark);border-color:var(--safety-dark);}
+  .btn-ghost{border-color:var(--ink);color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);}
+
+  .hero-art{position:relative;}
+  .hero-art svg{width:100%;height:auto;}
+  .draw-path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s ease forwards .3s;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  .hero-art-fade{opacity:0;animation:fadeIn .6s ease forwards 1.5s;}
+  @keyframes fadeIn{to{opacity:1;}}
+
+  .hero-note{margin-top:36px;padding-top:20px;border-top:1px solid var(--paper-line);
+    font-size:0.92rem;color:var(--concrete);max-width:52ch;}
+
+  /* ---------- section heads ---------- */
+  .section-pad{padding:88px 0;}
+  .kicker{font-size:0.82rem;color:var(--safety);font-weight:600;margin-bottom:10px;}
+  .sec-head{max-width:640px;}
+  .sec-head h2{font-size:clamp(1.7rem,2.6vw,2.3rem);}
+  .sec-head p{margin-top:14px;color:var(--concrete);font-size:1.02rem;}
+
+  /* ---------- servicios (blueprint) ---------- */
+  .servicios{color:#EAF0F5;}
+  .servicios .sec-head p{color:#B7C6D4;}
+  .servicios .kicker{color:var(--blue-accent);}
+  .svc-grid{
+    margin-top:48px;display:grid;grid-template-columns:repeat(2,1fr);
+    border-top:1px solid var(--blueprint-line);border-left:1px solid var(--blueprint-line);
+  }
+  .svc{
+    padding:30px 32px;border-right:1px solid var(--blueprint-line);border-bottom:1px solid var(--blueprint-line);
+    display:flex;gap:18px;
+  }
+  .svc-code{font-family:'Space Grotesk';font-weight:600;font-size:0.82rem;color:var(--blue-accent);
+    border:1px solid var(--blue-accent);padding:3px 7px;height:fit-content;letter-spacing:0.02em;}
+  .svc h3{font-size:1.06rem;color:#fff;margin-bottom:8px;}
+  .svc p{font-size:0.94rem;color:#AFC0CF;}
+  @media (max-width:760px){.svc-grid{grid-template-columns:1fr;}}
+
+  /* ---------- nosotros ---------- */
+  .cards3{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--paper-line);}
+  .card{background:var(--paper-card);padding:30px 28px;position:relative;}
+  .card .tab{position:absolute;top:0;left:28px;transform:translateY(-100%);
+    background:var(--ink);color:var(--paper);font-size:0.72rem;font-weight:600;padding:5px 10px;letter-spacing:0.02em;}
+  .card h3{font-size:1.1rem;margin-bottom:12px;margin-top:8px;}
+  .card p{color:var(--concrete);font-size:0.96rem;}
+  @media (max-width:820px){.cards3{grid-template-columns:1fr;}}
+
+  .origen{margin-top:56px;padding-top:44px;border-top:1px solid var(--paper-line);
+    display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:start;}
+  .origen h3{font-size:1.15rem;margin-bottom:12px;}
+  .origen p{color:var(--concrete);}
+  @media (max-width:760px){.origen{grid-template-columns:1fr;}}
+
+  /* ---------- cobertura ---------- */
+  .cobertura{background:var(--paper-card);border-top:1px solid var(--paper-line);border-bottom:1px solid var(--paper-line);}
+  .cob-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+  .tags{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px 22px;}
+  .tag{display:flex;align-items:center;gap:8px;font-size:0.94rem;font-weight:500;}
+  .tag .dot{width:6px;height:6px;background:var(--safety);border-radius:50%;flex-shrink:0;}
+  .cob-figure{border:1px solid var(--paper-line);padding:26px;background:var(--paper);}
+  .cob-figure svg{width:100%;height:auto;}
+  @media (max-width:820px){.cob-grid{grid-template-columns:1fr;gap:32px;}}
+
+  /* ---------- contacto / title block ---------- */
+  .contacto{background:var(--blueprint-deep);color:#EAF0F5;}
+  .contacto .kicker{color:var(--blue-accent);}
+  .contacto .sec-head p{color:#B7C6D4;}
+  .tblock{
+    margin-top:48px;border:1px solid var(--blueprint-line);
+    display:grid;grid-template-columns:1.1fr 1fr;
+  }
+  .tblock-info{padding:38px;border-right:1px solid var(--blueprint-line);}
+  .tfield{padding:18px 0;border-bottom:1px solid var(--blueprint-line);}
+  .tfield:first-child{padding-top:0;}
+  .tfield:last-child{border-bottom:0;}
+  .tfield .flabel{font-size:0.74rem;color:var(--blue-accent);font-weight:600;letter-spacing:0.03em;margin-bottom:6px;}
+  .tfield .fval{font-size:1.02rem;color:#fff;}
+  .tfield a.fval:hover{color:var(--safety);}
+
+  .tblock-form{padding:38px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:0.82rem;margin-bottom:7px;color:#B7C6D4;}
+  .field input, .field textarea{
+    width:100%;background:transparent;border:1px solid var(--blueprint-line);color:#fff;
+    padding:11px 12px;font-family:inherit;font-size:0.96rem;border-radius:var(--radius);
+  }
+  .field input:focus, .field textarea:focus{border-color:var(--blue-accent);outline:none;}
+  .field textarea{resize:vertical;min-height:84px;}
+  .tblock-form .btn-primary{width:100%;text-align:center;border:0;cursor:pointer;}
+  @media (max-width:760px){.tblock{grid-template-columns:1fr;}.tblock-info{border-right:0;border-bottom:1px solid var(--blueprint-line);}}
+
+  /* ---------- footer ---------- */
+  footer{padding:40px 0;}
+  .fwrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .fwrap .brand{font-size:0.95rem;}
+  .flinks{display:flex;gap:22px;flex-wrap:wrap;font-size:0.9rem;color:var(--concrete);}
+  .flinks a:hover{color:var(--safety);}
+  .fnote{margin-top:22px;font-size:0.82rem;color:var(--concrete);border-top:1px solid var(--paper-line);padding-top:18px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="navwrap">
+    <a class="brand" href="#inicio"><span class="mark">K</span>KOV Consultorías</a>
+    <input type="checkbox" id="menu-toggle">
+    <label class="burger" for="menu-toggle" aria-label="Abrir menú"><span></span><span></span><span></span></label>
+    <nav>
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#cobertura">Cobertura</a></li>
+        <li><a href="#contacto" class="nav-cta">Contáctenos</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section id="inicio" class="hero grid-paper">
+    <span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span>
+    <div class="wrap">
+      <div>
+        <h1>Estructurando sueños.</h1>
+        <p class="lede">Consultoría especializada para la construcción: diseño estructural, arquitectónico y electromecánico, inspección de obra y trámite de permisos, con un mismo equipo responsable de principio a fin.</p>
+        <div class="ctas">
+          <a href="#contacto" class="btn btn-primary">Solicitar cotización</a>
+          <a href="#servicios" class="btn btn-ghost">Ver servicios</a>
+        </div>
+        <p class="hero-note">Damos solución estructural a distintas oficinas de arquitectura y, para los proyectos que lo requieren, desarrollamos la obra desde cero junto a Constructora KyL.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 460 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- ground with hatching -->
+          <line x1="20" y1="300" x2="440" y2="300" stroke="#8FA6B8" stroke-width="1.5"/>
+          <g stroke="#B9C7D3" stroke-width="1">
+            <line x1="26" y1="300" x2="16" y2="312"/><line x1="46" y1="300" x2="36" y2="312"/>
+            <line x1="66" y1="300" x2="56" y2="312"/><line x1="86" y1="300" x2="76" y2="312"/>
+            <line x1="106" y1="300" x2="96" y2="312"/><line x1="350" y1="300" x2="340" y2="312"/>
+            <line x1="370" y1="300" x2="360" y2="312"/><line x1="390" y1="300" x2="380" y2="312"/>
+            <line x1="410" y1="300" x2="400" y2="312"/><line x1="430" y1="300" x2="420" y2="312"/>
+          </g>
+          <!-- building silhouette, drawn on load -->
+          <path class="draw-path" pathLength="1" d="M140,300 L140,140 L230,80 L320,140 L320,300"
+            stroke="#17324A" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <g class="hero-art-fade">
+            <line x1="140" y1="220" x2="320" y2="220" stroke="#6FA0C7" stroke-width="1.5"/>
+            <rect x="168" y="238" width="28" height="28" stroke="#6FA0C7" stroke-width="1.5"/>
+            <rect x="264" y="238" width="28" height="28" stroke="#6FA0C7" stroke-width="1.5"/>
+            <rect x="168" y="168" width="28" height="28" stroke="#6FA0C7" stroke-width="1.5"/>
+            <rect x="264" y="168" width="28" height="28" stroke="#6FA0C7" stroke-width="1.5"/>
+            <rect x="214" y="258" width="32" height="42" stroke="#17324A" stroke-width="1.5"/>
+            <rect x="284" y="96" width="13" height="44" stroke="#17324A" stroke-width="1.5"/>
+            <!-- dimension line -->
+            <line x1="360" y1="80" x2="360" y2="300" stroke="#B9C7D3" stroke-width="1"/>
+            <line x1="354" y1="80" x2="366" y2="80" stroke="#B9C7D3" stroke-width="1"/>
+            <line x1="354" y1="300" x2="366" y2="300" stroke="#B9C7D3" stroke-width="1"/>
+            <circle cx="235" cy="35" r="2" fill="#DD5522"/>
+            <line x1="235" y1="35" x2="235" y2="55" stroke="#DD5522" stroke-width="1"/>
+            <text x="242" y="40" font-family="IBM Plex Sans" font-size="11" fill="#6E6A5D">S-01</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios" class="servicios grid-blueprint section-pad">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Hoja de servicios</p>
+        <h2>Un equipo, todas las disciplinas del proyecto</h2>
+        <p>Desde el cálculo estructural hasta el permiso municipal, acompañamos cada etapa con un responsable técnico identificado.</p>
+      </div>
+      <div class="svc-grid">
+        <div class="svc"><span class="svc-code">S-01</span><div><h3>Diseño Estructural</h3><p>Cálculo y detallado de estructuras de concreto, acero y madera, respaldado por memorias de cálculo firmadas.</p></div></div>
+        <div class="svc"><span class="svc-code">S-02</span><div><h3>Inspección Estructural</h3><p>Verificación en obra o en estructuras existentes de que lo construido corresponda con el diseño y la norma vigente.</p></div></div>
+        <div class="svc"><span class="svc-code">A-01</span><div><h3>Diseño Arquitectónico</h3><p>Anteproyectos y planos residenciales, institucionales y comerciales pensados desde la función y el presupuesto.</p></div></div>
+        <div class="svc"><span class="svc-code">A-02</span><div><h3>Inspección Arquitectónica</h3><p>Seguimiento de acabados y especificaciones durante la obra para que el resultado coincida con lo planeado.</p></div></div>
+        <div class="svc"><span class="svc-code">M-01</span><div><h3>Diseño Electromecánico</h3><p>Sistemas eléctricos, hidráulicos y mecánicos integrados al proyecto desde las etapas tempranas del diseño.</p></div></div>
+        <div class="svc"><span class="svc-code">M-02</span><div><h3>Inspección Electromecánica</h3><p>Revisión de instalaciones eléctricas y mecánicas antes de la entrega de la obra.</p></div></div>
+        <div class="svc"><span class="svc-code">D-01</span><div><h3>Confección de planos</h3><p>Planos constructivos listos para trámite municipal y para guiar la construcción en sitio.</p></div></div>
+        <div class="svc"><span class="svc-code">P-01</span><div><h3>Trámite de permisos</h3><p>Gestión ante el CFIA, municipalidades e instituciones para que el proyecto avance sin contratiempos.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOSOTROS -->
+  <section id="nosotros" class="section-pad">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Sobre nosotros</p>
+        <h2>Consultoría cercana, respaldo técnico serio</h2>
+        <p>Nuestra empresa se dedica a brindar soluciones en las distintas áreas del diseño para la construcción, desde vivienda unifamiliar hasta puentes peatonales y bancos.</p>
+      </div>
+
+      <div class="cards3">
+        <div class="card"><span class="tab">Misión</span>
+          <p>Brindar acompañamiento profesional —como asesores, consultores, diseñadores y fiscalizadores— a proyectos de mediana y pequeña escala, para que cada cliente alcance el resultado que busca.</p>
+        </div>
+        <div class="card"><span class="tab">Visión</span>
+          <p>Crecer de forma constante sin perder el trato cercano y la relación de confianza que nos caracteriza, adaptándonos a las necesidades del mercado y de cada cliente.</p>
+        </div>
+        <div class="card"><span class="tab">Valores</span>
+          <p>Lealtad, compromiso, honestidad y honradez, dentro de un marco ético que ha guiado a la empresa desde sus fundadores.</p>
+        </div>
+      </div>
+
+      <div class="origen">
+        <h3>Nuestro inicio</h3>
+        <p>KOV Consultorías nació con la ambición de poner en práctica el conocimiento de un consultor estructural de oficinas de diseño arquitectónico, para el desarrollo de un emprendimiento propio dedicado a acompañar proyectos de construcción de principio a fin.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COBERTURA -->
+  <section id="cobertura" class="cobertura section-pad">
+    <div class="wrap cob-grid">
+      <div>
+        <p class="kicker">¿Dónde trabajamos?</p>
+        <h2 style="font-size:clamp(1.7rem,2.6vw,2.3rem);">Todo el territorio nacional</h2>
+        <p style="margin-top:14px;color:var(--concrete);">Realizamos trabajos en todo Costa Rica, garantizando siempre calidad, seguridad y respaldo técnico en cada servicio, sin importar la escala del proyecto.</p>
+        <div class="tags">
+          <span class="tag"><span class="dot"></span>Casas</span>
+          <span class="tag"><span class="dot"></span>Colegios</span>
+          <span class="tag"><span class="dot"></span>EBAIS</span>
+          <span class="tag"><span class="dot"></span>Apartamentos</span>
+          <span class="tag"><span class="dot"></span>Condominios</span>
+          <span class="tag"><span class="dot"></span>Edificios</span>
+          <span class="tag"><span class="dot"></span>Bodegas</span>
+        </div>
+      </div>
+      <div class="cob-figure">
+        <svg viewBox="0 0 380 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="190" cy="110" r="4" fill="#DD5522"/>
+          <circle cx="190" cy="110" r="34" stroke="#C9C2AE" stroke-width="1"/>
+          <circle cx="190" cy="110" r="66" stroke="#C9C2AE" stroke-width="1"/>
+          <circle cx="190" cy="110" r="98" stroke="#C9C2AE" stroke-width="1"/>
+          <g stroke="#17324A" stroke-width="1.5">
+            <line x1="190" y1="12" x2="190" y2="208"/>
+            <line x1="92" y1="110" x2="288" y2="110"/>
+          </g>
+          <text x="200" y="20" font-family="IBM Plex Sans" font-size="11" fill="#6E6A5D">N</text>
+          <text x="196" y="118" font-family="Space Grotesk" font-size="12" font-weight="600" fill="#17324A">CR</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="contacto section-pad">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Ficha de contacto</p>
+        <h2>Conversemos sobre su proyecto</h2>
+        <p>Escríbanos para conocer más sobre nuestro trabajo o solicitar una cotización; le respondemos en los siguientes horarios.</p>
+      </div>
+
+      <div class="tblock">
+        <div class="tblock-info">
+          <div class="tfield"><p class="flabel">Ubicación</p><p class="fval">Aserrí, San José, Costa Rica</p></div>
+          <div class="tfield"><p class="flabel">Email</p><a class="fval" href="mailto:consultas@kovconsultoria.com">consultas@kovconsultoria.com</a></div>
+          <div class="tfield"><p class="flabel">Teléfono</p><a class="fval" href="tel:+50689630260">+506 8963-0260</a></div>
+          <div class="tfield"><p class="flabel">Horario</p><p class="fval">Lun – Vie: 9:00 a.m. – 6:00 p.m.<br>Sáb: 10:00 a.m. – 4:00 p.m.</p></div>
+        </div>
+        <form class="tblock-form" action="mailto:consultas@kovconsultoria.com" method="post" enctype="text/plain">
+          <div class="field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" type="text" required></div>
+          <div class="field"><label for="correo">Correo</label><input id="correo" name="correo" type="email" required></div>
+          <div class="field"><label for="mensaje">Cuéntenos sobre su proyecto</label><textarea id="mensaje" name="mensaje" required></textarea></div>
+          <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="grid-paper">
+  <div class="wrap">
+    <div class="fwrap">
+      <a class="brand" href="#inicio"><span class="mark">K</span>KOV Consultorías</a>
+      <div class="flinks">
+        <a href="#servicios">Servicios</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#cobertura">Cobertura</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+    </div>
+    <p class="fnote">KOV Consultorías — Costa Rica. Consultoría estructural, arquitectónica y electromecánica para la construcción.</p>
+  </div>
+</footer>
+
+</body>
+</html>
